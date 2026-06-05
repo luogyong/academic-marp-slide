@@ -102,21 +102,6 @@ academic-marp-slide/
 └── README.md
 ```
 
-## VS Code Setup
-
-Install [Marp for VS Code](https://marketplace.visualstudio.com/items?itemName=marp-team.marp-vscode), then add theme paths to `settings.json`:
-
-```json
-{
-  "markdown.marp.themes": [
-    "./css/academic-minimal.css",
-    "./css/academic-fusion.css",
-    "./css/academic-full.css",
-    "./neobeam-lgy.css"
-  ]
-}
-```
-
 ## CLI Export
 
 ```bash
