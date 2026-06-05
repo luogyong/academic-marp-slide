@@ -1,14 +1,31 @@
 ---
 name: academic-marp-slide
-description: "Create academic presentations as Marp markdown with neobeam-lgy theme ecosystem. Use when the user wants conference talks, seminar slides, thesis defenses, grant briefings, lab meetings, or any academic presentation as Marp markdown. Triggers: 'conference talk', 'seminar slides', 'thesis defense', 'research presentation', 'academic deck', 'make slides for my paper', 'Marp presentation', 'academic marp'. This skill governs CONTENT and STRUCTURE. For the CSS themes, see css/ directory."
+description: "Create academic presentations as Marp markdown with neobeam-lgy theme ecosystem. Use when the user wants conference talks, seminar slides, thesis defenses, grant briefings, lab meetings, or any academic presentation as Marp markdown. Triggers (EN): 'conference talk', 'seminar slides', 'thesis defense', 'research presentation', 'academic deck', 'make slides for my paper', 'Marp presentation', 'academic marp'. Triggers (ZH): '学术PPT', '组会PPT', '论文PPT', '答辩PPT', '学术汇报', '课程PPT', '学术演示', '做幻灯片', '生成PPT', 'Marp幻灯片'. This skill governs CONTENT and STRUCTURE. For the CSS themes, see css/ directory."
 license: MIT
 ---
 
-# Academic Marp Slide Skill
+# Academic Marp Slide Skill / 学术 Marp 幻灯片技能
 
 Generate academic presentations as **Marp markdown** — enforced action titles, structured argument, communication-first design. Powered by the neobeam-lgy theme ecosystem.
 
-## How This Skill Works
+## Language Support / 语言支持
+
+**Auto-detect and match the user's language.** This skill supports bilingual (EN/ZH) operation:
+
+| 用户语言 | 你的工作语言 | 幻灯片内容语言 | 默认主题 |
+|----------|-------------|---------------|---------|
+| 中文 | 中文 | 中文 | `neobeam-lgy` |
+| English | English | English | `academic-minimal` |
+| 中英混合 | 中文 | 中文为主 | `neobeam-lgy` |
+
+**核心原则:**
+- 用户说中文 → 用中文思考和回复，生成中文幻灯片内容
+- 用户说英文 → 用英文思考和回复，生成英文幻灯片内容
+- 学术概念术语（Action Title、Ghost Deck Test 等）用英文原名，解释用用户语言
+- 中文幻灯片默认使用 `neobeam-lgy` 主题（最佳 CJK 字体 + 丰富组件）
+- 中文 trigger 关键词：学术PPT、组会PPT、论文PPT、答辩PPT、学术汇报、课程PPT、做幻灯片
+
+## How This Skill Works / 工作机制
 
 1. **SKILL.md** (this file) — content strategy, argument structure, design standards, theme selection
 2. **[content_guidelines.md](content_guidelines.md)** — detailed academic writing rules adapted for Marp
@@ -29,11 +46,34 @@ Four themes available — choose based on the presentation context:
 | **academic-fusion** | `academic-fusion.css` | Blend (neobeam components + minimal palette) | Balanced academic presentations |
 | **academic-full** | `academic-full.css` | Full slide patterns (all 10 patterns as CSS classes) | Complex decks needing explicit pattern control |
 
-### Default Theme Logic
+### Default Theme Logic / 默认主题规则
 
-- **Chinese content or teaching**: default to `neobeam-lgy` (richest features, CJK font stack)
-- **English conference talk**: default to `academic-minimal` (slide_patterns.md philosophy)
-- **User preference unclear**: ask, showing the table above
+- **中文内容（教学/汇报/答辩）**: 默认 `neobeam-lgy`（CJK 字体栈最完整、box/beamer 组件最丰富）
+- **English conference talk**: 默认 `academic-minimal`（slide_patterns.md 极简哲学）
+- **用户不确定**: 用中文询问偏好，展示上方表格
+
+### 中文用户的幻灯片写作规范
+
+生成中文幻灯片时，遵循以下额外规范：
+
+**Action Title（行动标题）** — 每页标题必须是完整断言句：
+| 不要写（主题标签） | 要写（行动标题） |
+|-------------------|-----------------|
+| 实验结果 | 治疗组在三个队列中均显著优于对照组（p < 0.01）|
+| 文献综述 | 现有研究未解释因果机制，留下关键空白 |
+| 方法 | 断点回归利用 185% 贫困线作为外生分配阈值 |
+
+**中英混排** — 学术术语保留英文，正文用中文：
+```markdown
+# BERT 预训练目标与 MLM 遮蔽策略显著影响下游 NER 性能
+```
+
+**引用格式** — 中文幻灯片使用 `（作者, 年份）` 格式：
+```html
+<div class="cite">
+（Heckman et al., 2013, Science）
+</div>
+```
 
 ---
 
