@@ -4,13 +4,71 @@ A Claude Code skill for creating academic presentations as **Marp markdown**. En
 
 Based on [academic-pptx-skill](https://github.com/Gabberflast/academic-pptx-skill) by Gabberflast — adapted for Marp output.
 
+## Installation
+
+### 1. Clone the Skill
+
+Clone this repo into your Claude Code skills directory:
+
+```bash
+# Create skills directory if it doesn't exist
+mkdir -p ~/.claude/skills
+
+# Clone the skill
+git clone https://github.com/luogyong/academic-marp-slide.git ~/.claude/skills/academic-marp-slide
+```
+
+Or clone anywhere and register the path in Claude Code settings (`~/.claude/settings.json`):
+
+```json
+{
+  "skills": {
+    "additionalPaths": ["F:/path/to/academic-marp-slide"]
+  }
+}
+```
+
+### 2. Install the neobeam-lgy Theme (Recommended)
+
+The richest theme depends on [neobeam-lgy](https://github.com/luogyong/Marp-theme-for-academic):
+
+```bash
+# Clone alongside
+git clone https://github.com/luogyong/Marp-theme-for-academic.git ~/marp-themes/Marp-theme-for-academic
+```
+
+### 3. Configure VS Code for Marp
+
+Install [Marp for VS Code](https://marketplace.visualstudio.com/items?itemName=marp-team.marp-vscode), then add all theme paths to `settings.json`:
+
+```json
+{
+  "markdown.marp.themes": [
+    "~/marp-themes/Marp-theme-for-academic/css/neobeam-lgy.css",
+    "~/.claude/skills/academic-marp-slide/css/academic-minimal.css",
+    "~/.claude/skills/academic-marp-slide/css/academic-fusion.css",
+    "~/.claude/skills/academic-marp-slide/css/academic-full.css"
+  ]
+}
+```
+
+### 4. Verify Installation
+
+Restart Claude Code (or VS Code), then type:
+
+> "Use academic-marp-slide to make a test slide"
+
+Or invoke directly: `/academic-marp-slide`
+
 ## Quick Start
 
-In Claude Code, invoke the skill when you need academic slides:
+Once installed, just describe what you need:
 
 > "Make slides for my paper on early childhood intervention"
 > "Create a conference talk for my ACL submission"
 > "Build a thesis defense presentation"
+
+The skill will plan your deck, generate Marp markdown, and apply the right theme automatically.
 
 ## What This Skill Does
 
