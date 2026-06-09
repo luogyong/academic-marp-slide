@@ -59,9 +59,9 @@ Four themes available — choose based on the presentation context:
 **Action Title（行动标题）** — 每页标题必须是完整断言句：
 | 不要写（主题标签） | 要写（行动标题） |
 |-------------------|-----------------|
-| 实验结果 | 治疗组在三个队列中均显著优于对照组（p < 0.01）|
+| 实验结果 | 治疗组在三个队列中均显著优于对照组（$p<0.01$）|
 | 文献综述 | 现有研究未解释因果机制，留下关键空白 |
-| 方法 | 断点回归利用 185% 贫困线作为外生分配阈值 |
+| 方法 | 断点回归利用 $185\%$ 贫困线作为外生分配阈值 |
 
 **中英混排** — 学术术语保留英文，正文用中文：
 ```markdown
@@ -166,7 +166,7 @@ Content here
 **Info boxes** (neobeam-lgy, academic-fusion, academic-full):
 ```html
 <div class="box info" data-label="Key Finding">
-Significant effect at p < 0.001
+Significant effect at $p < 0.001$
 </div>
 ```
 
@@ -175,6 +175,23 @@ Significant effect at p < 0.001
 <div class="beamer theme" data-label="Takeaway">
 Main conclusion here
 </div>
+```
+
+**Formula box** (neobeam-lgy, academic-fusion, academic-full):
+```html
+<div class="formula-box">
+
+$$
+Y_{it} = \alpha + \beta \cdot \text{Treat}_i + \gamma \cdot \text{Post}_t + \delta \cdot (\text{Treat}_i \times \text{Post}_t) + \varepsilon_{it}
+$$
+
+</div>
+```
+
+**Inline math** — every statistical symbol gets `$...$`:
+```markdown
+- 核心发现：处理组收入高 $18\%$（$p < 0.001$，$N = 2{,}400$）
+- 效应量 $\beta = 0.23$，$95\%\ \text{CI}: [0.14, 0.32]$
 ```
 
 **Results slide pattern** (academic-full):
@@ -209,6 +226,69 @@ Author et al. (2024), Journal Name
 Do effects of the X program on cognitive skills persist to age 35?
 </div>
 ```
+
+---
+
+### Math Formula Convention / 数学公式规范
+
+**All mathematical notation MUST use LaTeX.** This is non-negotiable — plain-text math is not acceptable in academic slides.
+
+**Inline formulas** — use `$...$` for symbols and short expressions within text:
+```markdown
+- 治疗组显著优于对照组（$p < 0.01$）
+- 干预组收入高出 $18\%$（$95\%\ \text{CI}: [14\%, 22\%]$）
+- 处理效应 $\beta = 0.23$，标准误 $SE = 0.05$
+- 样本量 $N = 1{,}150$，覆盖 $40$ 年面板数据
+```
+
+**Display formulas** — use `$$...$$` for standalone equations and key formulas:
+```markdown
+$$
+Y_{it} = \alpha + \beta \cdot \text{Treat}_i + \gamma \cdot \text{Post}_t + \delta \cdot (\text{Treat}_i \times \text{Post}_t) + \varepsilon_{it}
+$$
+```
+
+**Formula box** — for key equations that need emphasis (neobeam-lgy, academic-fusion, academic-full):
+```html
+<div class="formula-box">
+
+$$
+\text{ITT} = \frac{\lim_{x \downarrow c} E[Y_i | X_i = x] - \lim_{x \uparrow c} E[Y_i | X_i = x]}{\lim_{x \downarrow c} E[D_i | X_i = x] - \lim_{x \uparrow c} E[D_i | X_i = x]}
+$$
+
+</div>
+```
+
+**What MUST use LaTeX:**
+| 类型 | 示例 |
+|------|------|
+| p-values, t-stats, F-stats | `$p < 0.001$`, `$t = 3.42$`, `$F(2, 98) = 5.67$` |
+| Greek letters | `$\alpha$`, `$\beta$`, `$\gamma$`, `$\delta$`, `$\varepsilon$` |
+| Statistical notation | `$N$`, `$n$`, `$SD$`, `$SE$`, `$\mu$`, `$\sigma$` |
+| Confidence intervals | `$95\%\ \text{CI}: [0.14, 0.22]$` |
+| R-squared, correlations | `$R^2 = 0.34$`, `$r = 0.67$` |
+| Mathematical operators | `$\times$`, `$\approx$`, `$\pm$`, `$\propto$` |
+| Subscripts / superscripts | `$X_{it}$`, `$Y_{i,t-1}$`, `$10^{3}$` |
+| Equations (any) | `$y = \beta_0 + \beta_1 x + \varepsilon$` |
+| Percentages in stats context | `$18\%$` vs. `$23\%$` |
+
+**Counterexamples** — plain text is WRONG:
+```markdown
+❌ 治疗组显著优于对照组（p < 0.01）
+❌ Treatment effect: β = 0.23 (SE = 0.05)
+❌ R² = 0.34, N = 1,150
+❌ Y = α + β·Treat + ε
+```
+
+**Correct versions:**
+```markdown
+✅ 治疗组显著优于对照组（$p < 0.01$）
+✅ Treatment effect: $\beta = 0.23$ ($SE = 0.05$)
+✅ $R^2 = 0.34$, $N = 1{,}150$
+✅ $Y = \alpha + \beta \cdot \text{Treat} + \varepsilon$
+```
+
+> **Note:** `math: katex` is required in the Marp front matter for LaTeX rendering. This is already in the front matter template.
 
 ---
 
@@ -271,6 +351,7 @@ Academic QA checklist:
 □ Section dividers present for decks > 15 slides
 □ Marp front matter correct (theme name matches CSS file)
 □ Theme CSS file path correctly configured in VS Code settings
+□ All math symbols and formulas use LaTeX $...$ or $$...$$ (no plain-text math)
 ```
 
 ---
@@ -283,6 +364,7 @@ Academic QA checklist:
 4. **Slides support speech; they don't replace it.** Body text orients; the presenter argues.
 5. **Cite everything borrowed.** In-slide citation + References slide.
 6. **End on conclusions.** Conclusions slide stays on screen during Q&A.
+7. **All math in LaTeX.** Every symbol, formula, equation — inline `$...$`, display `$$...$$`. No plain-text math.
 
 ---
 

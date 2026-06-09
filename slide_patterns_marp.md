@@ -119,7 +119,7 @@ The research question gets its **own slide**. Never embed it in a motivation sli
 
 ### Design
 - **Cohort:** 2,400 children born 1985–90 in three counties
-- **Assignment:** income < 185% FPL at age 3 → eligible (N = 1,150)
+- **Assignment:** income < $185\%$ FPL at age 3 → eligible ($N = 1{,}150$)
 - **Follow-up:** ages 5, 8, 18, 25, 35 — admin records linked
 
 </div>
@@ -163,9 +163,9 @@ Target: 1–2 slides. Move procedural detail to appendix.
 <div>
 
 ### What to take away
-- **Average effect:** 18% earnings gain (p < 0.001)
-- **Heterogeneity:** effects are 3.5× larger for Q1 vs Q4
-- **Precision:** 95% CI = [14%, 22%] for pooled estimate
+- **Average effect:** $18\%$ earnings gain ($p < 0.001$)
+- **Heterogeneity:** effects are $3.5\times$ larger for Q1 vs Q4
+- **Precision:** $95\%\ \text{CI} = [14\%, 22\%]$ for pooled estimate
 
 </div>
 </div>

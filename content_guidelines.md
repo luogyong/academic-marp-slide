@@ -112,7 +112,7 @@ If more, split the slide or move to appendix.
 
 ### Telegraphic language is acceptable
 - Instead of: "Our study found that the intervention reduced costs significantly."
-- Use: "Intervention reduced costs by 23% (p < 0.01)"
+- Use: "Intervention reduced costs by 23% ($p < 0.01$)"
 
 ### Body font: 20 pt minimum
 This is a floor. If text must be smaller than 20 pt, remove content.
@@ -278,8 +278,57 @@ Use relative paths from the `.md` file:
 ```
 
 ### Math
+
 Enable KaTeX in front matter:
 ```yaml
 math: katex
 ```
-Then use standard LaTeX: `$inline$` or `$$block$$`.
+
+**All mathematical notation MUST use LaTeX.** No plain-text math in academic slides.
+
+**Inline** — use `$...$` for symbols and short expressions within body text:
+```markdown
+- 治疗组收入高 $18\%$（$p < 0.001$，$N = 2{,}400$）
+- Treatment effect $\beta = 0.23$ ($SE = 0.05$, $95\%\ \text{CI}: [0.14, 0.32]$)
+- 断点回归利用 $185\%$ 贫困线作为外生分配阈值
+```
+
+**Display** — use `$$...$$` for standalone equations:
+```markdown
+$$
+Y_{it} = \alpha + \beta \cdot \text{Treat}_i + \gamma \cdot \text{Post}_t + \delta \cdot (\text{Treat}_i \times \text{Post}_t) + \varepsilon_{it}
+$$
+```
+
+**Formula box** (neobeam-lgy, academic-fusion, academic-full) for key equations:
+```html
+<div class="formula-box">
+
+$$
+\text{ITT} = \frac{\lim_{x \downarrow c} E[Y_i | X_i = x] - \lim_{x \uparrow c} E[Y_i | X_i = x]}{\lim_{x \downarrow c} E[D_i | X_i = x] - \lim_{x \uparrow c} E[D_i | X_i = x]}
+$$
+
+</div>
+```
+
+**What requires LaTeX:**
+| Category | Examples |
+|----------|----------|
+| p-values, t-stats, F-stats | `$p < 0.001$`, `$t = 3.42$`, `$F(2, 98) = 5.67$` |
+| Greek letters | `$\alpha$`, `$\beta$`, `$\gamma$`, `$\delta$`, `$\varepsilon$` |
+| Statistical notation | `$N$`, `$n$`, `$SD$`, `$SE$`, `$\mu$`, `$\sigma$` |
+| Confidence intervals | `$95\%\ \text{CI}: [0.14, 0.22]$` |
+| R-squared, correlations | `$R^2 = 0.34$`, `$r = 0.67$` |
+| Mathematical operators | `$\times$`, `$\approx$`, `$\pm$`, `$\propto$` |
+| Subscripts / superscripts | `$X_{it}$`, `$Y_{i,t-1}$`, `$10^{3}$` |
+| Equations | `$y = \beta_0 + \beta_1 x + \varepsilon$` |
+
+```markdown
+❌ 治疗组显著优于对照组（p < 0.01）
+❌ Treatment effect: β = 0.23 (SE = 0.05)
+❌ R² = 0.34, N = 1,150
+
+✅ 治疗组显著优于对照组（$p < 0.01$）
+✅ Treatment effect: $\beta = 0.23$ ($SE = 0.05$)
+✅ $R^2 = 0.34$, $N = 1{,}150$
+```
