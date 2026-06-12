@@ -72,16 +72,18 @@ The skill will plan your deck, generate Marp markdown, and apply the right theme
 
 ## What This Skill Does
 
-1. **Plans** — Identifies presentation type, builds slide-by-slide outline with action titles
-2. **Generates** — Produces Marp markdown (`.md`) with proper theme, layout, and components
-3. **QA's** — Runs academic checklist: ghost deck test, citation check, font sizes, etc.
+1. **Extracts** — For PDF inputs, calls MinerU Open API to extract full text + all figures to `.md` (saved next to the source PDF)
+2. **Plans** — Identifies presentation type, builds slide-by-slide outline with action titles and figure assignment
+3. **Generates** — Produces Marp markdown (`.md`) with proper theme, layout, components, and in-body figures
+4. **Appends** — Adds an image appendix at the end: one slide per figure from the paper, with captions
+5. **QA's** — Runs academic checklist: ghost deck test, citation check, figure coverage, appendix completeness
 
 ## Themes
 
 Four Marp CSS themes available:
 
 | Theme | CSS File | Style |
-|-------|----------|-------|
+| ----- | -------- | ----- |
 | **neobeam-lgy** | [neobeam-lgy.css](https://github.com/luogyong/Marp-theme-for-academic) | Rich academic (gradients, multi-color boxes, beamer blocks, CJK fonts) |
 | **academic-minimal** | [css/academic-minimal.css](css/academic-minimal.css) | Minimalist (white bg, navy+blue, single font, no decoration) |
 | **academic-fusion** | [css/academic-fusion.css](css/academic-fusion.css) | Blend (neobeam components + minimal palette) |
@@ -89,7 +91,7 @@ Four Marp CSS themes available:
 
 ## Files
 
-```
+```text
 academic-marp-slide/
 ├── SKILL.md                     # Skill entry point — workflow, theme selection, Marp syntax
 ├── content_guidelines.md        # Academic content rules (action titles, argument, citations)

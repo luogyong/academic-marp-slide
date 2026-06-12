@@ -35,6 +35,36 @@ Output is **Marp markdown** (`.md`), rendered with one of four CSS themes in `cs
 
 ---
 
+## PDF Input: MinerU Extraction (Pre-Processing Step)
+
+**If the input is a PDF file, ALWAYS extract it with MinerU before generating slides.**
+
+MinerU converts the PDF to Markdown with all figures preserved as image references — this is the only way to reliably use the paper's own figures in slides.
+
+### Extraction Command
+
+Use the MinerU Open API MCP tool (tool name: `mineru-open-api`):
+
+```
+Input:  path/to/paper.pdf
+Output: path/to/paper.md   ← same directory as the PDF, same filename
+```
+
+The extracted `.md` file will contain:
+- Full text in Markdown
+- Image references like `![](images/figure_1.png)` pointing to a sibling `images/` folder
+
+### After Extraction
+
+1. Read the extracted `.md` to get the full text (use this instead of the PDF for content)
+2. Inventory all figures: collect every `![](...)` path in the extracted md
+3. Map each figure to the section it appears in (methods figure, results figure, etc.)
+4. Use these figures when building slides (see Image Integration below)
+
+**Do not skip extraction even if you already have the PDF text** — the image paths only come from MinerU's output.
+
+---
+
 ## Theme Selection
 
 Four themes available — choose based on the presentation context:
@@ -106,6 +136,8 @@ Default to **Structured Argument**. If the user mentions a paper, study, dataset
 Produce a slide-by-slide outline and confirm with the user if the deck is > 10 slides.
 
 **Ghost deck test**: read only the action titles in sequence. They must tell the complete argument. If they don't, fix the outline before writing.
+
+**Image assignment**: during outlining, note which figure from the paper best illustrates each key slide. Assign figures greedily — the most important figure goes in the main body; all others go to the appendix.
 
 ---
 
@@ -228,6 +260,110 @@ Do effects of the X program on cognitive skills persist to age 35?
 ```
 
 ---
+
+### Image Integration / 图片集成规范
+
+**Images are mandatory when the source paper has figures.** Text-only slides for results, methods, or framework are a quality failure.
+
+#### Placement rules
+
+| Slide type | Image usage |
+|------------|-------------|
+| Results / findings | One figure per slide, left or center; bullet "so what" on the right |
+| Methods / framework | Architecture diagram or pipeline figure if available |
+| Introduction / motivation | Conceptual diagram or data overview figure |
+| Conclusions | Optional — repeat the single most impactful figure |
+| Background / related work | Only if the figure directly supports the argument |
+
+#### Marp image syntax
+
+**Full-width centered image:**
+```markdown
+![w:700px center](images/figure_3.png)
+*图3：主要实验结果——处理组在所有三个队列中均显著优于对照组*
+```
+
+**Two-column: figure left + takeaway right:**
+```html
+<div class="columns-6-4">
+<div>
+
+![w:100%](images/figure_2.png)
+*图2：回归不连续设计示意图*
+
+</div>
+<div>
+
+### 关键发现
+- 贫困线两侧存在显著跳跃（$\beta = 0.23$）
+- 带宽敏感性检验通过
+
+</div>
+</div>
+```
+
+**Figure with caption box** (neobeam-lgy):
+```html
+<div class="box info" data-label="图1：研究框架">
+
+![w:650px center](images/figure_1.png)
+
+</div>
+```
+
+#### Image path convention
+
+Always use paths relative to the output `.md` file:
+- MinerU output: `images/figure_1.png` (MinerU creates an `images/` subfolder)
+- User-provided images: use the path as given
+
+If an image path is uncertain, write `<!-- TODO: 替换为实际图片路径 -->` below the `![]()` line as a placeholder comment.
+
+---
+
+### Image Appendix / 图片附录
+
+**After the References slide, add an appendix section listing ALL figures from the source paper.** This lets the presenter pull any figure up during Q&A and provides a reference for later editing.
+
+#### Appendix structure
+
+```markdown
+---
+<!-- _class: section -->
+
+# 附录：原文图表
+
+---
+<!-- _class: appendix -->
+
+# 附录 A — 图1：[图题]
+
+![w:750px center](images/figure_1.png)
+
+**说明：** [一句话描述图的内容和位置，例如"来自第3节，展示研究框架总览"]
+
+---
+<!-- _class: appendix -->
+
+# 附录 B — 图2：[图题]
+
+![w:750px center](images/figure_2.png)
+
+**说明：** [描述]
+
+---
+```
+
+Rules:
+- Every figure from the MinerU-extracted md gets one appendix slide
+- Slide title = `附录 X — 图N：[caption from paper]`
+- Caption = one sentence: what the figure shows + where it appears in the paper
+- Figures already used in the main body are still included in the appendix (for reference)
+- Order: same order as they appear in the paper
+
+#### QA for appendix
+
+After writing the appendix, count: number of `![](...)` in the extracted md == number of appendix slides. If they don't match, you missed a figure.
 
 ### Math Formula Convention / 数学公式规范
 
@@ -352,6 +488,10 @@ Academic QA checklist:
 □ Marp front matter correct (theme name matches CSS file)
 □ Theme CSS file path correctly configured in VS Code settings
 □ All math symbols and formulas use LaTeX $...$ or $$...$$ (no plain-text math)
+□ [PDF input] MinerU extraction completed; extracted .md saved next to source PDF
+□ [PDF input] Key slides include figures from the paper (results/methods/framework)
+□ [PDF input] Image appendix present: one slide per figure, with description
+□ [PDF input] Appendix figure count == figure count in extracted .md
 ```
 
 ---
@@ -365,6 +505,7 @@ Academic QA checklist:
 5. **Cite everything borrowed.** In-slide citation + References slide.
 6. **End on conclusions.** Conclusions slide stays on screen during Q&A.
 7. **All math in LaTeX.** Every symbol, formula, equation — inline `$...$`, display `$$...$$`. No plain-text math.
+8. **Figures are mandatory for PDF inputs.** Extract with MinerU first, embed key figures in the body, put all figures in the appendix. Text-only results slides are a quality failure.
 
 ---
 
